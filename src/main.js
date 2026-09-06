@@ -8,7 +8,7 @@ const games = [
     id: "balloon-stars",
     title: "별 모으기 열기구",
     icon: "🎈",
-    href: "/games/balloon-stars/index.html",
+    href: "./games/balloon-stars/index.html",
     available: true,
   },
   {
