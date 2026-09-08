@@ -34,8 +34,9 @@ function startGame(W, H) {
   let score = 0;
   let won = false;
 
-  function makeBalloon(scene, x, emoji) {
-    const balloon = scene.add.text(x, H / 2, emoji, { fontSize: "72px" }).setOrigin(0.5);
+  function makeBalloon(scene, x) {
+    const balloon = scene.add.circle(x, H / 2, 36, 0xff9f43);
+    balloon.setStrokeStyle(4, 0xe8890f);
     scene.physics.add.existing(balloon);
     balloon.body.setGravityY(GRAVITY_Y);
     balloon.body.setMaxVelocity(9999, MAX_FALL_SPEED);
@@ -49,7 +50,7 @@ function startGame(W, H) {
   // enough to catch them -- no side-to-side control needed.
   function spawnStar(scene, columnX) {
     const x = columnX + Phaser.Math.Between(-40, 40);
-    const star = scene.add.text(x, -30, "⭐", { fontSize: "40px" }).setOrigin(0.5);
+    const star = scene.add.rectangle(x, -30, 32, 32, 0x2ed573);
     scene.physics.add.existing(star);
     star.body.setAllowGravity(false);
     star.body.setVelocityY(160);
@@ -79,8 +80,8 @@ function startGame(W, H) {
       // very top/bottom edge instead of touching them.
       this.physics.world.setBounds(0, CEIL_MARGIN, W, H - CEIL_MARGIN - GROUND_MARGIN);
 
-      leftBalloon = makeBalloon(this, W * 0.25, "🎈");
-      rightBalloon = makeBalloon(this, W * 0.75, "🎈");
+      leftBalloon = makeBalloon(this, W * 0.25);
+      rightBalloon = makeBalloon(this, W * 0.75);
 
       scoreLabel = this.add
         .text(W / 2, 20, `⭐ 0 / ${WIN_TARGET}`, { fontSize: "32px", color: "#22303c" })

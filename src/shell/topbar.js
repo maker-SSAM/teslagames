@@ -1,4 +1,5 @@
 import { getVolume, setVolume, isMuted, setMuted, getEffectiveVolume } from "./soundStore.js";
+import { enterFullscreen, mountFullscreenGate } from "./fullscreen.js";
 
 /**
  * Mounts the shared top bar (sound toggle, volume settings, optional exit-to-hub button)
@@ -32,9 +33,15 @@ export function mountShellTopbar({ showExit = false, exitHref = "/", onVolumeCha
     exitBtn.textContent = "🏠";
     exitBtn.setAttribute("aria-label", "홈으로 나가기");
     exitBtn.addEventListener("click", () => {
+      enterFullscreen();
       window.location.href = exitHref;
     });
     bar.appendChild(exitBtn);
+
+    // Fullscreen requires a user gesture and is dropped by the full-page
+    // navigation that brought us here, so gate the game behind a tap-to-start
+    // overlay — that tap is what actually unlocks fullscreen for this page.
+    mountFullscreenGate();
   }
 
   const panel = document.createElement("div");
