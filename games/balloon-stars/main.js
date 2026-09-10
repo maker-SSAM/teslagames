@@ -1,5 +1,6 @@
-import Phaser from "phaser";
-import "../../src/shell/shell.css";
+// Phaser is loaded globally via vendor/phaser-arcade-physics.min.js (a plain
+// <script> tag in index.html), not an npm import — that way this game runs
+// straight from source with no Node/npm build step.
 import { mountShellTopbar } from "../../src/shell/topbar.js";
 import { playCollectSound, playWinSound } from "../../src/shell/beep.js";
 
@@ -35,8 +36,8 @@ function startGame(W, H) {
   let won = false;
 
   function makeBalloon(scene, x) {
-    const balloon = scene.add.circle(x, H / 2, 36, 0xff9f43);
-    balloon.setStrokeStyle(4, 0xe8890f);
+    const balloon = scene.add.circle(x, H / 2, 36, 0xe74c3c);
+    balloon.setStrokeStyle(4, 0xb03024);
     scene.physics.add.existing(balloon);
     balloon.body.setGravityY(GRAVITY_Y);
     balloon.body.setMaxVelocity(9999, MAX_FALL_SPEED);
@@ -50,7 +51,20 @@ function startGame(W, H) {
   // enough to catch them -- no side-to-side control needed.
   function spawnStar(scene, columnX) {
     const x = columnX + Phaser.Math.Between(-40, 40);
-    const star = scene.add.rectangle(x, -30, 32, 32, 0x2ed573);
+    // Equilateral triangle pointing up, vertices spaced 120° apart around the center.
+    const R = 22;
+    const star = scene.add.triangle(
+      x,
+      -30,
+      0,
+      -R,
+      R * 0.866,
+      R * 0.5,
+      -R * 0.866,
+      R * 0.5,
+      0xffd700,
+    );
+    star.setStrokeStyle(3, 0xd4a900);
     scene.physics.add.existing(star);
     star.body.setAllowGravity(false);
     star.body.setVelocityY(160);

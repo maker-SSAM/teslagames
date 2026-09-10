@@ -7,12 +7,15 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
     <title>별 모으기 열기구</title>
+    <link rel="stylesheet" href="../../src/shell/shell.css" />
   </head>
   <body>
     <div class="zone-divider"></div>
     <div class="win-banner" id="win-banner">
       <div class="win-banner__text">성공! 🎉</div>
     </div>
-    <script type="module" src="/games/balloon-stars/main.js"></script>
+    <!-- Vendored locally (not a CDN) so the game runs offline and without a Node/npm build step. -->
+    <script src="../../vendor/phaser-arcade-physics.min.js"></script>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>

@@ -1,4 +1,3 @@
-import "./shell/shell.css";
 import { mountShellTopbar } from "./shell/topbar.js";
 
 mountShellTopbar({ showExit: false });
