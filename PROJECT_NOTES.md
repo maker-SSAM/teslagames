@@ -1,169 +1,166 @@
-# 테슬라 뒷자리 게임 사이트 — 프로젝트 노트
+# 테슬라 뒷좌석 게임 — 프로젝트 노트 (진행 기록)
 
-마지막 갱신: 2026-09-10
-이 문서는 여러 컴퓨터를 오가며 작업을 이어가기 위한 진행 상황/결정 기록입니다.
-새 세션(다른 PC, 새 대화)에서 작업을 이어갈 때는 이 문서를 먼저 읽어주세요.
+마지막 갱신: 2026-09-30
+
+이 문서는 여러 PC와 여러 대화(세션)를 오가며 작업을 이어가기 위한 **진행 기록**입니다.
+- **무엇을 어떤 순서로 할지** → [ROADMAP.md](ROADMAP.md)
+- **AI가 따를 규칙** → [CLAUDE.md](CLAUDE.md)
+- **지금 어디까지 왔는지, 무엇을 결정했는지** → 이 문서
+
+---
+
+## ⭐ 현재 상태 한눈에
+
+| 항목 | 내용 |
+|---|---|
+| 현재 단계 | **Stage 0 — 시작 전** (Godot 미설치) |
+| 바로 다음 할 일 | **맥북에** Godot 4.7.x (Standard) 설치 → `teslagames/godot/` 에 프로젝트 만들기 ([ROADMAP Stage 0](ROADMAP.md#stage-0--준비-godot과-첫-만남)) |
+| 세션 명령어 | 시작 `/시작`, 마무리 `/끝` |
+| 언제든 해 둘 일 | 🚗 차에서 뒷좌석 화면으로 `teslagames.web.app` 열어 보기 (아래 "위험 요소" 1번) |
+| 배포 중인 사이트 | https://teslagames.web.app — 아직 **옛 Phaser 버전** (Stage 1에서 Godot으로 교체 예정) |
 
 ---
 
 ## 프로젝트 한 줄 요약
 
-테슬라 **Model Y Juniper** 2열(뒷좌석) 스크린에서, 미취학~저학년 자녀(한국나이 5세·7세)가
-광고·댓글 없이 간단한 터치/드래그 게임을 가지고 놀 수 있는 **오프라인 지원 게임 허브**를
-직접 만드는 개인 프로젝트.
+테슬라 **Model Y Juniper 뒷좌석 화면**에서 5~7세(한국 나이) 두 아이가 광고 없이 할 수 있는 **오프라인 터치 게임 모음**을,
+사용자가 **Godot을 직접 배우면서** AI와 함께 천천히 만드는 개인 프로젝트.
 
-- 배포 주소: https://teslagames.web.app (Firebase Hosting)
-- 저장소 루트: 이 폴더 (`teslagames`), OneDrive로 여러 PC에 동기화됨
-- Git 사용자: `maker-SSAM` / 이메일: erebus921@gmail.com
+- 배포 주소: https://teslagames.web.app (Firebase Hosting, 프로젝트 ID `teslagames`)
+- 저장소: 이 폴더 (`teslagames`), OneDrive로 여러 PC에 동기화 + git
+- Git 사용자: `maker-SSAM`
 
 ---
 
-## 확정된 요구사항 (사용자 답변 기준)
+## 확정된 요구사항
 
 | 항목 | 내용 |
 |---|---|
-| 실행 화면 | **테슬라 Model Y Juniper 2열 스크린**이 메인 타깃. 뒷좌석 거치 태블릿도 보조로 지원 |
-| 오프라인 | **필수** — 터널/시골길처럼 인터넷이 끊겨도 끊김 없이 동작해야 함 |
-| 대상 연령 | 미취학~저학년 (한국나이 5세, 7세 = 국제나이 약 4세, 6세) |
-| 조작 방식 | **탭 또는 드래그(스와이프)만**. 복잡한 버튼 조합·키보드 금지 |
-| 인원 | **2인용 필수** — 형제자매가 화면 하나로 같이(협동) 또는 각자(대결) 플레이. 서로 싸우는 것 방지 목적 |
-| 콘텐츠 확장 규모 | 아직 미정 — 게임 개수보다 **기반(허브+배포+오프라인)을 먼저 탄탄히** 하는 게 우선 |
-| 난이도 | "지지 않는 게임(no fail state)"이 필수는 아님. 다만 **난이도는 낮게** — 5세/7세 둘 다 무리 없이 |
-| 레퍼런스 장르 | **앵그리버드**(드래그 조준-발사) / **프루츠닌자**(드래그 스와이프로 베기) 스타일 |
-| 시간적 배경 | 아이들이 좀 더 크면 개인 기기(폰/닌텐도 등)로 넘어갈 가능성 → 인프라에 너무 오래 투자하지 말고 실제 플레이 가능한 콘텐츠를 비교적 빨리 낼 것 |
-| 비주얼 스타일 | 이모지/아이콘 대신 **직접 그린 벡터 도형** (원, 삼각형 등 단순 도형 + 원색) |
-| 배포 도메인 밖 원칙 | 광고, 댓글, 계정, 온라인 순위표 등 **일체 없음** — 순수하게 "게임 선택 → 구동"만 하는 심플한 페이지 |
+| 실행 화면 | 테슬라 Model Y Juniper **뒷좌석 화면**이 메인. 뒷좌석 거치 태블릿은 보조 (Plan B) |
+| 대상 | 한국 나이 5세·7세 (만 4세·6세). 글을 잘 못 읽음 |
+| 광고·온라인 | 광고, 댓글, 계정, 온라인 순위표 **일체 없음** |
+| 오프라인 | **필수** — 터널·시골길에서 인터넷이 끊겨도 동작 |
+| 조작 | **탭 또는 드래그(스와이프)만** |
+| 인원 | 2인용 선호. **1인용도 가능.** 2인용은 **동시** 또는 **번갈아** 둘 다 가능 (2026-09-30 완화) |
+| 난이도 | 낮게. "절대 지지 않는 게임"일 필요는 없음 |
+| 레퍼런스 | 유명 게임(앵그리버드, 프루츠닌자 등)을 참고하되 **난이도를 낮춰** 차용 |
+| 비주얼 | 이모지·이미지 대신 **코드로 그린 단순 도형** + 선명한 색 |
+| 제작 방식 | **사용자가 Godot을 처음부터 배우면서** 함께 만든다. AI가 결과만 주는 방식이 아님 (2026-09-30) |
+| 시간 감각 | 아이들이 크면 개인 기기로 넘어갈 수 있음 → 인프라에 너무 오래 매달리지 말고 **실제로 노는 게임을 비교적 빨리** |
 
 ---
 
-## 핵심 설계 원칙 (앞으로 모든 작업의 기준)
+## 결정 기록 (Decision Log)
 
-1. 광고 · 댓글 · 계정 · 온라인 기능 없음 — 게임 선택과 구동만
-2. 오프라인 필수 (PWA + Service Worker 캐싱 예정, 아직 미구현)
-3. 조작은 탭 또는 드래그만
-4. 읽기 능력 불필요 — 도형·색·소리로 이해되는 UI
-5. 난이도는 낮게 (단, "완전히 안 지는 게임"을 강제하지는 않음 — 사용자가 이 조건은 완화함)
-6. 화면 분할 2인 동시 플레이가 기본값 (혼자 해도 자연스럽게 동작)
-7. **Node 없이도 게임 코드를 편집·구동할 수 있어야 함** (여러 PC를 오가며 작업하기 때문 — 아래 참고)
+최신 결정이 위에 옵니다. 결정을 뒤집을 때는 지우지 말고 새 항목을 추가합니다.
 
----
+### 2026-09-30 — 주 작업기는 맥북, 세션 명령어는 한글로
+- **주 작업기: 맥북 M2 Pro** (학교·집에 들고 다님). 윈도우 PC(학교·집)는 필요할 때 잠깐씩만 사용
+- 웹 내보내기와 Firebase 배포는 **맥북에서만** 한다 (내보내기 템플릿과 Firebase CLI를 맥북에만 설치)
+- 모든 기기에서 OneDrive의 `teslagames` 폴더는 **"항상 이 기기에 유지"** 로 설정
+- 세션 명령어: **`/시작`**(= `/lesson-start`), **`/끝`**(= `/lesson-end`). 한글 이름이 메뉴에 안 보이면 영어 이름으로 실행
 
-## 지금까지 완료한 작업
+### 2026-09-30 — 엔진을 Phaser에서 Godot으로 전환, 계획 전면 재수립
+- **결정**: Godot 4.7.x (Standard, GDScript, Compatibility 렌더러)로 새로 만든다. 단계별 계획은 [ROADMAP.md](ROADMAP.md)
+- **이유**:
+  1. 사용자가 **과정을 배우면서** 만들고 싶어 함 → 시각적 에디터가 있는 Godot이 학습에 적합
+  2. Godot은 Node/npm이 필요 없어, 여러 PC를 오갈 때 생기던 빌드 문제가 사라짐
+  3. 웹 내보내기·PWA·2D 물리가 모두 내장
+- **엔진 이력**: KAPLAY → Phaser 4 → **Godot** (세 번째). 차에서 아예 동작하지 않는 수준의 문제가 없는 한 **다시 바꾸지 않는다**
+- **옛 Phaser 코드**: 지우지 않고 그대로 둔다 (`games/`, `src/`, `vendor/`, `index.html`, vite 설정, serve 스크립트).
+  Stage 1에서 배포 대상이 Godot으로 바뀌고, Stage 5에서 `legacy/`로 옮길지 지울지 사용자가 결정
+- **한 프로젝트 원칙**: 허브와 모든 게임을 **하나의 Godot 프로젝트**에 넣는다 (한 번 로딩하면 모든 게임을 오프라인으로 쓸 수 있음)
+- **진행 방식**: 세션 시작은 `/시작`, 마무리는 `/끝` 스킬 사용 (영어 이름 `/lesson-start`, `/lesson-end`도 동작). 사용자는 이후 비용 절감을 위해 가벼운 모델을 쓸 예정 → 문서만 보고 이어갈 수 있게 구체적으로 작성함
 
-### 1. balloon-stars(별 모으기 열기구) 비주얼을 벡터 도형으로 변경
-- 풍선: 주황 원 → **빨간 원** (`0xe74c3c`, 테두리 `0xb03024`)
-- 별: 초록 사각형 → **노란 정삼각형** (`0xffd700`, 테두리 `0xd4a900`), `scene.add.triangle`로 직접 그림
-- 파일: [games/balloon-stars/main.js](games/balloon-stars/main.js)
-
-### 2. Node 없이 편집·구동 가능한 구조로 전환 (하이브리드 빌드 전략)
-**배경**: 이 프로젝트는 기존에 Vite + npm(`import Phaser from "phaser"`) 구조라, Node/npm이 없는 PC에서는
-소스를 고쳐도 `dist/`(빌드 결과물)를 다시 만들 수 없어 반영이 안 되는 문제가 있었음. 여러 PC를 오가며
-작업할 계획이라 이 문제를 근본적으로 해결함.
-
-**변경 내용**:
-- `vendor/phaser-arcade-physics.min.js` 추가 — Phaser 4.2.1의 arcade-physics 전용 경량 UMD 빌드를
-  npm 패키지가 아니라 **저장소에 직접 커밋**해둠 (CDN도 아니고 완전 로컬 파일 — 오프라인 요구사항과도 부합)
-- [games/balloon-stars/index.html](games/balloon-stars/index.html): Phaser를 `<script src="../../vendor/...">`로 전역 로드,
-  CSS도 JS import 대신 `<link rel="stylesheet">`로 전환, `main.js` 경로를 상대경로로 변경
-- [games/balloon-stars/main.js](games/balloon-stars/main.js): `import Phaser from "phaser"`와 CSS import 제거
-  (전역 `Phaser` 객체 사용). 나머지 상대경로 import(`topbar.js`, `beep.js`)는 그대로 유지
-- [index.html](index.html), [src/main.js](src/main.js): 허브 페이지도 동일하게 CSS를 `<link>`로 전환 —
-  **사이트 전체를 빌드 없이 소스 그대로 서빙 가능**하게 만듦
-- **새 스크립트**: [serve_source.ps1](serve_source.ps1) / [serve_source.bat](serve_source.bat) /
-  [serve_source_mac.command](serve_source_mac.command) — `dist`가 아니라 **소스 코드 원본**을
-  `http://localhost:8200`으로 서빙 (포트 8100은 기존 `serve.bat` 계열이 `dist`를 서빙하는 데 그대로 사용 중)
-
-**검증**: 브라우저 프리뷰로 소스에서 바로 게임이 로드되고, 빨간 원/노란 삼각형이 정상 렌더링되며
-콘솔 에러가 없음을 확인함. 별 생성 로직도 게임 루프를 수동으로 스텝시켜 정상 동작 확인함
-(자동화 프리뷰 창이 백그라운드 탭으로 인식돼 실시간 애니메이션만 안 보였던 것 — 코드 자체는 문제없음).
-
-**⚠️ 미검증 사항**: `npm run build` / `npm run build:local`(Firebase 배포·더블클릭 로컬용 빌드)이
-이 구조 변경 후에도 정상 동작하는지는, 이 작업을 진행한 환경에 Node가 없어서 직접 확인하지 못했음.
-**Node 있는 PC에서 한 번 빌드를 돌려서 `dist/`, `dist-local/`이 문제없이 생성되는지 확인 필요.**
-
-**Git 상태**: 위 변경 사항들은 아직 **커밋되지 않은 상태**임 (`git status` 기준 수정/신규 파일로 남아있음).
-OneDrive 동기화 자체는 git 커밋 여부와 무관하게 파일 단위로 이루어지므로 다른 PC에서도 파일은 보이지만,
-여러 PC에서 동시에 손대면 git 히스토리 없이 충돌할 수 있으니 다음 세션에서 커밋 여부를 판단할 것.
-
-### 3. 기존 로컬 서빙 구조 (참고, 오늘 이전부터 있던 것)
-- `serve.bat` / `serve.ps1` / `serve_mac.command` (포트 8100): **`dist/`(빌드 결과물)를 서빙**.
-  Node 있는 PC에서 실행하면 자동으로 `npm run build`까지 하고 서빙, Node 없는 PC에서는 이미
-  OneDrive로 동기화되어 있는 `dist/`를 그대로 서빙 (재빌드 안 함)
-- `vite.config.js`: 메인 빌드 설정 (허브 + balloon-stars → `dist/`, Firebase Hosting 배포 대상)
-- `vite.config.standalone.balloon-stars.js`: `vite-plugin-singlefile`로 게임 하나를 완전히
-  자체 포함된 단일 HTML로 빌드 (`dist-local/`) — 더블클릭으로 오프라인 실행 가능
-- `CREDITS.md`: 이미지/사운드 에셋 출처·라이선스 기록용 (현재는 도형/합성음만 써서 기록할 항목 없음)
+### 2026-09-10 — Node 없이 편집 가능한 구조 (Phaser 시절, 이제는 참고용)
+- Phaser를 `vendor/`에 직접 넣고 `<script>`로 불러와 빌드 없이 소스를 바로 서빙하도록 바꿨음
+- Godot 전환으로 이 문제 자체가 사라짐
 
 ---
 
-## 전체 빌드 로드맵 (최신판)
+## 위험 요소 & 미확인 사항
 
-### Phase 0 — 실차 검증 (사용자가 직접 확인해야 함)
-- Model Y Juniper 2열 스크린에서 `teslagames.web.app` 접속 방법 확인 — **URL 직접 입력해야 하는지,
-  즐겨찾기/바로가기로 고정 가능한지** (아이가 스스로 켤 수 있어야 하므로 중요)
-- 화면 실제 해상도/가로세로 비율 실측
-- 오프라인(에어플레인모드 등) 상태에서 재방문 시 캐시로 뜨는지
-- **2개 손가락 동시 터치**(멀티터치)가 잘 인식되는지 — balloon-stars로 테스트 가능
-
-### Phase 1 — 오프라인 PWA 기반 (미착수)
-- Web App Manifest + Service Worker로 허브·게임·`vendor/` 에셋 전체 캐싱
-- 배포마다 안전하게 캐시 갱신되는 버전 관리 전략
-- 정확한 파일 버전 관리가 필요해서 `vite-plugin-pwa` 같은 빌드 도구 활용 예정 (Node PC에서 최종 빌드)
-- Lighthouse PWA 감사로 점검
-
-### Phase 2 — 공용 입력 유틸 (탭 + 드래그 + 2인 분할 터치) (미착수)
-- `src/shell/`에 스와이프 궤적 추적, 화면 좌/우 분할 멀티터치를 표준화한 공용 모듈 추가
-- balloon-stars가 이미 `input: { activePointers: 2 }`로 좌/우 분할 2인 조작을 하고 있음 —
-  이 패턴을 공식 표준으로 뽑아내서 재사용
-
-### Phase 3 — Game #2: 과일 슬라이스 (프루츠닌자 스타일) (미착수, 다음 유력 후보)
-- balloon-stars의 "위에서 떨어지는 오브젝트 + 화면 밖으로 나가면 제거" 로직 재사용 가능
-- 드래그(스와이프) 슬라이스 판정 추가 (아래 레퍼런스 참고)
-- 협동 모드(같이 모으기) / 대결 모드(각자 점수 경쟁) 둘 다 화면 좌우 분할로 구현
-- 과일도 이미지 대신 벡터 도형(원·타원 + 색)으로
-
-### Phase 4 — Game #3 후보: 새총 발사 (앵그리버드 스타일) (미착수, 더 큰 작업이라 후순위)
-- 드래그로 조준·발사하는 물리 기반 게임 — 구조물 쌓기, 발사체 물리 필요
-- Phaser의 Arcade Physics 대신 Matter.js 플러그인 전환 검토 필요할 수 있음
-
-### Phase 5 — 배포·유지보수 루틴 정리 (미착수)
-- Firebase 배포 전 체크리스트(오프라인 테스트, 실기기 확인) 문서화
-- "진실의 원천" 정리: Firebase 배포본이 실제 서비스 대상, OneDrive의 `dist`/`dist-local`은
-  Node 없는 PC용 로컬 백업 경로
+| # | 내용 | 영향 | 확인 방법·시점 | 결과 |
+|---|---|---|---|---|
+| 1 | **뒷좌석 화면에는 일반 웹 브라우저가 없다**는 보도 (2026-01). 우회 경로: Theater → YouTube → 나침반 아이콘 → 개인정보처리방침 → Google → 주소 입력 ([출처](https://www.notateslaapp.com/news/3503/how-to-hack-tesla-rear-screen-to-watch-any-video-streaming-appsservices)) | **프로젝트 전체.** 안 되면 Plan B(태블릿) | 지금 당장 기존 사이트로 확인 가능 / Stage 1 관문 | ⬜ 미확인 |
+| 2 | 우회 경로는 들어가는 길 자체가 인터넷을 필요로 할 수 있음 → 완전 오프라인 상태에서 새로 켜기는 어려울 수 있음 | 오프라인 요구 | Stage 1·5. 운영 팁: 출발 전·터널 전에 미리 켜 두기 | ⬜ 미확인 |
+| 3 | Godot 웹 게임은 첫 로딩 용량이 큼 (수십 MB, 압축 전송 시 줄어듦) | 첫 로딩 시간 | Stage 1에서 실측 | ⬜ 미확인 |
+| 4 | 뒷좌석 브라우저의 WebGL 2.0·WebAssembly 지원 여부 | 실행 가능 여부 | Stage 1 | ⬜ 미확인 |
+| 5 | 뒷좌석 화면의 실제 해상도·비율 | 화면 설계 | Stage 1 (화면에 크기 표시) | ⬜ 미확인 |
+| 6 | 두 손가락 동시 터치(멀티터치) 인식 | 동시 2인 게임 | Stage 2 (터치 테스터) | ⬜ 미확인 |
+| 7 | 소리가 어디로 나오는지 (차 스피커 / 블루투스) | 소리 설계 | Stage 2 | ⬜ 미확인 |
+| 8 | 웹에서 한글 글꼴이 □로 깨짐 | 글자 사용 | 글자를 안 쓰는 것이 원칙. 필요하면 Noto Sans KR 추가 | 알려진 문제 |
+| 9 | 폴더 경로에 한글·공백 포함 (`OneDrive - 덕치초등학교\바탕 화면\...`) | 도구 오류 가능성 | 문제가 생기면 그때 대응 | 관찰 중 |
 
 ---
 
-## 오픈소스 레퍼런스 조사 결과
+## PC별 환경
 
-⚠️ **라이선스 주의**: 대부분 LICENSE 파일이 없는 개인 프로젝트 → 기본 저작권 적용, 코드 그대로 복사는
-안전하지 않음. **읽고 기법만 참고해서 우리 스타일(벡터 도형, Phaser 4, vendor 구조)로 새로 구현**하는 게 기본 전략.
+| 기기 | 역할 | Godot (버전·경로) | 내보내기 템플릿 | Firebase CLI | 메모 |
+|---|---|---|---|---|---|
+| **맥북 M2 Pro** | **주 작업기** (학교·집에 들고 다님). 내보내기·배포 담당 | ⬜ 미설치 (`/Applications/Godot.app` 예정) | ⬜ | ⬜ 미설치 | 저장소 경로 기록 필요 (보통 `~/Library/CloudStorage/OneDrive-…/`) |
+| 윈도우 PC A | 보조 (가끔 짧게) | ⬜ 미설치 (`C:\Godot\` 예정) | 불필요 | 15.30.2 (Node v24.19.0) | 2026-09-30 계획 세션을 한 PC. 학교/집 중 어느 쪽인지 확인 필요 |
+| 윈도우 PC B | 보조 (가끔 짧게) | ⬜ | 불필요 | ? | 학교/집 중 나머지 하나 |
 
-| 저장소 | 장르/스택 | 라이선스 | 비고 |
+> - **모든 기기의 Godot 버전은 같아야 합니다.** 윈도우 PC는 에디터에서 실행(F5/F6)과 코드 수정만 하므로 내보내기 템플릿이 필요 없습니다.
+> - 맥북에 Firebase CLI를 설치하는 것은 Stage 1에서 합니다 (Node 없이 설치하는 단독 실행 파일 방식도 있음).
+
+---
+
+## 🚗 차 테스트 기록
+
+> 날짜, 소프트웨어 버전(알면), 무엇을 테스트했는지, 결과를 적습니다.
+
+_(아직 없음)_
+
+---
+
+## 👧👦 아이 관찰 기록
+
+> 게임을 해 본 뒤 재미있어한 점, 어려워한 점, 싸웠는지, 다시 하자고 했는지 등을 적습니다. 튜닝과 다음 게임을 고를 때 가장 중요한 자료입니다.
+
+_(아직 없음)_
+
+---
+
+## 세션 기록 (최신이 위)
+
+### 2026-09-30 — 계획 재수립 (고성능 모델 세션)
+- 목표 재확인: 목표는 기존과 같음. 1인용·번갈아 하기 허용으로 완화
+- 사용자 배경: Godot 경험 없음, 블록 코딩 약간, AI와 함께 OpenSCAD 프로젝트를 해 본 경험 있음
+- 결정: Godot으로 전환하고, **배우면서 함께 만드는** 방식으로 진행
+- 조사: Godot 최신 안정판 4.7.2 (2026-08), 웹 내보내기는 Compatibility 렌더러·WebGL 2.0 필요, 기본값은 싱글 스레드(특수 서버 헤더 불필요), PWA 옵션 내장.
+  **뒷좌석 화면에는 일반 브라우저가 없다는 보도**를 발견해 위험 요소 1번으로 등록
+- 만든 문서: [ROADMAP.md](ROADMAP.md) (새로 작성), [CLAUDE.md](CLAUDE.md) (Godot 기준으로 다시 작성), 이 문서 (재구성),
+  `.claude/skills/lesson-start`, `.claude/skills/lesson-end` (세션 시작·마무리 절차, 명령어는 `/시작`, `/끝`)
+- `.gitignore`에 `.godot/`, `export/` 추가
+- 작업 환경 결정: **맥북 M2 Pro가 주 작업기**, 윈도우 PC는 보조. 내보내기·배포는 맥북에서만
+- 다음: Stage 0 (맥북에 Godot 설치)
+
+### 2026-09-10 이전 — Phaser 시절 요약
+- Vite + KAPLAY로 시작 → Phaser 4로 전환 → Firebase Hosting 배포 (`teslagames.web.app`)
+- 게임 1개: **별 모으기 열기구** (`games/balloon-stars/`). 좌우 탭으로 풍선 2개 점프, 떨어지는 별 모으기, 둘이 합쳐 20개면 승리 (협동).
+  이 게임의 규칙은 Stage 3에서 Godot으로 다시 만들 때 그대로 참고 ([ROADMAP Stage 3](ROADMAP.md#stage-3--첫-게임-별-모으기-열기구-phaser-버전-다시-만들기))
+- 공용 셸(`src/shell/`): 상단바(소리·음량·홈 버튼), 전체화면 "탭해서 시작" 게이트, 합성 효과음
+- 알려진 문제 (Phaser 빌드, 더는 고치지 않음): `npm run build` 결과물에 `vendor/phaser-arcade-physics.min.js`가 복사되지 않음
+
+---
+
+## 참고 오픈소스 저장소
+
+⚠️ **라이선스 주의**: 대부분 LICENSE 파일이 없는 개인 프로젝트라 기본 저작권이 적용됩니다. 게다가 모두 JavaScript라 Godot에 그대로 쓸 수 없습니다.
+→ **규칙과 느낌만 참고**하고, 코드는 우리 방식(Godot, 벡터 도형)으로 새로 작성합니다.
+
+| 저장소 | 장르 | 라이선스 | 참고할 점 |
 |---|---|---|---|
-| [hoch98/Slingshot](https://github.com/hoch98/Slingshot) | 슬링샷, Matter.js | MIT | 실제 코드 재사용 안전 |
-| [keithfrancisb/Angry-Circles](https://github.com/keithfrancisb/Angry-Circles) | 앵그리버드 클론, 원+삼각형 | **ISC** (package.json에만 명시, GitHub 자동감지는 놓침) | 벡터 도형 스타일과 컨셉이 정확히 일치. 실행 방법 아래 참고 |
-| [asafmor/phaser-fruit-ninja](https://github.com/asafmor/phaser-fruit-ninja) | 프루츠닌자, Phaser 2.6.2 | 없음 | 스와이프 판정 로직 구조만 참고 |
-| [MehmetFaahem/fruit-ninja](https://github.com/MehmetFaahem/fruit-ninja) | 프루츠닌자, Phaser | 없음 | 목숨/폭탄 룰 참고 |
-| [emjose/slingshot](https://github.com/emjose/slingshot) | 슬링샷, Matter.js | 없음 | 발사 메커니즘 참고 |
-| [linkzy/adfree-kids-games](https://github.com/linkzy/adfree-kids-games) | 허브 구조 (2-6세, 광고없음, PWA) | 없음 | 허브/오프라인 구조 설계 참고, Phase 1에 도움될 듯 |
-| [michelpereira/awesome-open-source-games](https://github.com/michelpereira/awesome-open-source-games) | 오픈소스 게임 링크 모음 (3천+ 스타, 활발) | CC0 | 더 둘러볼 인덱스 |
+| [keithfrancisb/Angry-Circles](https://github.com/keithfrancisb/Angry-Circles) | 앵그리버드 클론 (원+삼각형) | ISC | 벡터 도형 스타일이 우리와 같음. [바로 플레이](https://keithfrancisb.github.io/Angry-Circles/) — 5·7세에겐 빠름 |
+| [hoch98/Slingshot](https://github.com/hoch98/Slingshot) | 새총 | MIT | 발사 메커니즘 |
+| [emjose/slingshot](https://github.com/emjose/slingshot) | 새총 | 없음 | 발사 메커니즘 (아이디어만) |
+| [asafmor/phaser-fruit-ninja](https://github.com/asafmor/phaser-fruit-ninja) | 프루츠닌자 | 없음 | 스와이프 판정 구조 (아이디어만) |
+| [MehmetFaahem/fruit-ninja](https://github.com/MehmetFaahem/fruit-ninja) | 프루츠닌자 | 없음 | 규칙 참고 (우리는 폭탄·목숨 없음) |
+| [linkzy/adfree-kids-games](https://github.com/linkzy/adfree-kids-games) | 광고 없는 유아 게임 허브 (PWA) | 없음 | 허브 구성·게임 아이디어 |
+| [michelpereira/awesome-open-source-games](https://github.com/michelpereira/awesome-open-source-games) | 오픈소스 게임 목록 | CC0 | 아이디어 찾기 |
 
-### Angry-Circles 실행 방법 (확인 완료)
-- **바로 플레이**: https://keithfrancisb.github.io/Angry-Circles/ (GitHub Pages 배포됨)
-- **로컬 실행**: `dist/main.js`가 이미 빌드되어 커밋돼 있어서, ZIP 다운로드 후 `index.html`을
-  더블클릭만 해도 바로 동작 (Node 불필요, `file://`로도 문제없음 — ES 모듈이 아니라 일반 `<script src>`라서)
-- **소스 수정하며 개발**: `npm install` → `npx webpack` (package.json에 별도 `build`/`start` 스크립트는 없음)
-- 조작: 왼쪽 원을 드래그해서 당겼다 놓으면 발사, 오른쪽 삼각형 더미를 4번 안에 쓰러뜨리면 다음 레벨
-  → 지금 난이도/속도는 5·7세엔 다소 빠름. 우리 버전은 판정을 훨씬 느슨하게 조정할 것
-
----
-
-## 다음 액션 (미결 사항)
-
-1. **[사용자] Phase 0 실차 검증** — Model Y Juniper 2열 스크린에서 위 체크리스트 확인
-2. **[사용자] Node 있는 PC에서 `npm run build` / `npm run build:local` 한 번 확인** — 오늘 구조 변경 후
-   정상적으로 빌드되는지 (아직 미검증)
-3. **[결정 필요] git 커밋 여부** — 현재 변경 사항들이 아직 커밋 안 된 상태. 여러 PC를 오가기 전에
-   커밋해두는 게 안전할 수 있음
-4. **[다음 작업 후보]** Phase 1(오프라인 PWA) 또는 Phase 2(탭+드래그 공용 입력 유틸) 중 무엇부터
-   시작할지 — 대화 마지막 시점까지 미결정
+Godot 학습 자료:
+- 공식 문서 (한국어 일부 번역: 주소의 `/en/`을 `/ko/`로): https://docs.godotengine.org/en/stable/
+- 공식 첫 2D 게임 튜토리얼: https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html
