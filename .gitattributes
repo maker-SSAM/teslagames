@@ -1,0 +1,6 @@
+# 줄바꿈 통일: 윈도우와 맥에서 같은 저장소를 쓰므로 모든 텍스트 파일을 LF로 고정 (Godot 기본값과 같음)
+* text=auto eol=lf
+
+# 윈도우 배치 파일은 CRLF여야 안전하게 동작
+*.bat text eol=crlf
+*.cmd text eol=crlf
