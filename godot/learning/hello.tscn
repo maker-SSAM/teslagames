@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dmapkjur40t3b"]
+
+[node name="Hello" type="Node2D" unique_id=45084781]
+
+[node name="Label" type="Label" parent="." unique_id=2087574049]
+offset_left = 800.0
+offset_top = 100.0
+offset_right = 872.0
+offset_bottom = 149.0
+scale = Vector2(4, 4)
+theme_override_colors/font_color = Color(0.9620717, 0, 0.12723154, 1)
+text = "Hello 123
+"
