@@ -1,4 +1,4 @@
-# 이 폴더의 소스 코드(빌드 전 원본)를 http://localhost:8200 으로 서빙하는 간단한
+﻿# 이 폴더의 소스 코드(빌드 전 원본)를 http://localhost:8200 으로 서빙하는 간단한
 # 로컬 서버. node/npm이 없는 PC(예: 학교 PC)에서도 게임을 "수정 -> 새로고침"으로
 # 바로 확인할 수 있도록, Vite 개발 서버 대신 PowerShell 내장 HttpListener로
 # 정적 파일만 서빙한다. dist(빌드 결과물)를 보는 serve.ps1과 달리 이 스크립트는

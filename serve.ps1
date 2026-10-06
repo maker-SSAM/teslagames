@@ -1,4 +1,4 @@
-# 이 폴더의 dist(빌드 결과물)를 http://localhost:8100 으로 서빙하는 간단한 로컬 서버.
+﻿# 이 폴더의 dist(빌드 결과물)를 http://localhost:8100 으로 서빙하는 간단한 로컬 서버.
 # node/npm이 없는 PC(예: 학교 PC)에서도 동작하도록, Vite 대신 PowerShell 내장
 # HttpListener로 정적 파일만 서빙한다. dist는 다른 PC(node 있는 곳)에서 미리
 # 빌드되어 OneDrive로 동기화된 결과물을 그대로 사용한다.

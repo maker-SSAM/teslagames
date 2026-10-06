@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 cd /d "%~dp0"
 
 REM npm(Node.js)이 있는 PC(예: 집)면 최신 소스로 dist를 다시 빌드한다.

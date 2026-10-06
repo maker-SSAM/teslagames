@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 cd /d "%~dp0"
 
 REM 빌드 없이 소스 코드를 바로 서빙한다 (Node/npm 불필요).
